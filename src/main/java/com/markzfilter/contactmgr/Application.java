@@ -1,6 +1,6 @@
 package com.markzfilter.contactmgr;
 
-import model.Contact;
+import com.markzfilter.contactmgr.model.Contact;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

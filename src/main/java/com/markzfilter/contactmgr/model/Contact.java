@@ -1,4 +1,4 @@
-package model;
+package com.markzfilter.contactmgr.model;
 
 
 import javax.persistence.*;
