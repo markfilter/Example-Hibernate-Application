@@ -1,11 +1,17 @@
 package com.markzfilter.contactmgr;
 
 import com.markzfilter.contactmgr.model.Contact;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class Application {
 
@@ -25,6 +31,33 @@ public class Application {
 
         save(contact);
 
+
+
+        for (Contact c : fetchAllContacts()) {
+            System.out.println(c.toString());
+        }
+
+    }
+
+    private static List<Contact> fetchAllContacts() {
+        // Open Session
+        Session session = sessionFactory.openSession();
+
+        // Create Criteria Object
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+
+        CriteriaQuery<Contact> criteria = criteriaBuilder.createQuery(Contact.class);
+
+        Root<Contact> root = criteria.from(Contact.class);
+        criteria.select(root);
+
+        // Get a List of Contact objects according to Criteria object
+        List<Contact> contacts = session.createQuery(criteria).getResultList();
+
+        // Close the Session
+        session.close();
+
+        return contacts;
     }
 
     private static void save(Contact contact) {
