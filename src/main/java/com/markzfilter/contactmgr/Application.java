@@ -23,6 +23,11 @@ public class Application {
                 .withEmail("dt@whitehouse.gov")
                 .withPhone(2025550666L).build();
 
+        save(contact);
+
+    }
+
+    private static void save(Contact contact) {
         // Open Session
         Session session = sessionFactory.openSession();
 
@@ -39,6 +44,5 @@ public class Application {
 
         // Close the Session
         session.close();
-
     }
 }
