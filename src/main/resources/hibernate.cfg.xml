@@ -7,5 +7,13 @@
         <!-- SQL Dialect -->
         <property name="dialect">org.hibernate.dialect.H2Dialect</property>
 
+        <!-- Create a Database Schema on Startup -->
+        <!-- hbm2ddl is Hibernate mapping to data definition language -->
+        <property name="hbm2ddl.auto">create</property>
+
+        <!-- Names the annotated entity classes -->
+        <!-- This application only has one class to be mapped -->
+        <mapping class="com.markzfilter.contactmgr.model.Contact" />
+
     </session-factory>
 </hibernate-configuration>
