@@ -29,15 +29,105 @@ public class Application {
                 .withEmail("dt@whitehouse.gov")
                 .withPhone(2025550666L).build();
 
-        save(contact);
+        int id = save(contact);
 
-
-
+        // Display a list of contacts before the update
+        System.out.println("Displaying list of contacts BEFORE update");
         for (Contact c : fetchAllContacts()) {
             System.out.println(c.toString());
         }
 
+        // Get the Persisted Contact
+        Contact c = fetchContactById(id);
+
+        // Update the Contact
+        c.setFirstName("Darth");
+
+        // Persist the changes
+        System.out.println("Updating contact...");
+        update(c);
+
+        // Display a list of contacts after the update
+        System.out.println("Displaying list of contacts AFTER update");
+        for (Contact persistedContact : fetchAllContacts()) {
+            System.out.println(persistedContact.toString());
+        }
+
+
+        // Delete Contact
+        // Display a list of contacts after the update
+        System.out.println("Deleting Contacts...");
+        for (Contact contactToDelete : fetchAllContacts()) {
+            deleteContact(contactToDelete);
+        }
+
+        // Display a list of contacts after the update
+        if (fetchAllContacts().size() != 0) {
+            for (Contact eliminatedContact : fetchAllContacts()) {
+                System.out.println(eliminatedContact.toString());
+            }
+        }
+        else {
+            System.out.println("All Contacts Deleted");
+        }
+
     }
+
+    private static void deleteContact(Contact contact) {
+
+        // Open Session
+        Session session = sessionFactory.openSession();
+
+        // Begin a transaction
+        session.beginTransaction();
+
+        // Retrieve the persistent object (or null if not found)
+        session.delete(contact);
+
+        // Commit the transaction
+        session.getTransaction().commit();
+
+        // Close the Session
+        session.close();
+
+    }
+
+
+    private static Contact fetchContactById(int id) {
+
+        // Open Session
+        Session session = sessionFactory.openSession();
+
+        // Retrieve the persistent object (or null if not found)
+        Contact contact = session.get(Contact.class, id);
+
+        // Close the Session
+        session.close();
+
+        // Return the Contact object
+        return contact;
+    }
+
+
+    private static void update(Contact contact) {
+
+        // Open Session
+        Session session = sessionFactory.openSession();
+
+        // Begin a transaction
+        session.beginTransaction();
+
+        // Use the session to Update the Contact
+        session.update(contact);
+
+        // Commit the transaction
+        session.getTransaction().commit();
+
+        // Close the Session
+        session.close();
+
+    }
+
 
     private static List<Contact> fetchAllContacts() {
         // Open Session
@@ -60,7 +150,7 @@ public class Application {
         return contacts;
     }
 
-    private static void save(Contact contact) {
+    private static int save(Contact contact) {
         // Open Session
         Session session = sessionFactory.openSession();
 
@@ -70,12 +160,14 @@ public class Application {
         session.beginTransaction();
 
         // Use the Session to save the contact
-        session.save(contact);
+        int id = (int) session.save(contact);
 
         // Commit the Transaction
         session.getTransaction().commit();
 
         // Close the Session
         session.close();
+
+        return id;
     }
 }

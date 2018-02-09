@@ -11,6 +11,9 @@
         <!-- hbm2ddl is Hibernate mapping to data definition language -->
         <property name="hbm2ddl.auto">create</property>
 
+        <!-- Update a Database Schema on Startup -->
+        <!--<property name="hbm2ddl.auto">update</property>-->
+
         <!-- Show the queries prepared by Hibernate (optional) -->
         <property name="show_sql">true</property>
 
